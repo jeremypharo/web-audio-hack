@@ -6,26 +6,35 @@ BrowserEffectsPedal = function(audioElement) {
 
 BrowserEffectsPedal.prototype = {
   playWithEffects: function() {
+    var gain = this.createGain();
     var filter = this.createFilter();
     var that = this;
     that.createConvolver(function(convolver) {
-      that.createAudioGraph(filter, convolver);
+      that.createAudioGraph(gain, filter, convolver);
       that.addFilterSlider(filter);
       that.audioElement.play();
     });
+  },
+
+  createGain: function() {
+    var gain = this.context.createGain();
+    gain.gain.value = 0.5;
+
+    return gain;
   },
 
   createFilter: function() {
     var filter = this.context.createBiquadFilter();
     filter.type = 0;
     filter.frequency.value = 440;
-    filter.Q.value = 15;
+    filter.Q.value = 10;
 
     return filter;
   },
 
-  createAudioGraph: function(filter, convolver) {
-    this.source.connect(filter);
+  createAudioGraph: function(gain, filter, convolver) {
+    this.source.connect(gain);
+    gain.connect(filter);
     filter.connect(convolver);
     convolver.connect(this.context.destination);
   },
