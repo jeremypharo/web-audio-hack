@@ -7,9 +7,12 @@ BrowserEffectsPedal = function(audioElement) {
 BrowserEffectsPedal.prototype = {
   playWithEffects: function() {
     var filter = this.createFilter();
-    this.createAudioGraph(filter);
-    this.addFilterSlider(filter);
-    this.audioElement.play();
+    var that = this;
+    that.createConvolver(function(convolver) {
+      that.createAudioGraph(filter, convolver);
+      that.addFilterSlider(filter);
+      that.audioElement.play();
+    });
   },
 
   createFilter: function() {
@@ -21,9 +24,10 @@ BrowserEffectsPedal.prototype = {
     return filter;
   },
 
-  createAudioGraph: function(filter) {
+  createAudioGraph: function(filter, convolver) {
     this.source.connect(filter);
-    filter.connect(this.context.destination);
+    filter.connect(convolver);
+    convolver.connect(this.context.destination);
   },
 
   addFilterSlider: function(filter) {
@@ -37,6 +41,30 @@ BrowserEffectsPedal.prototype = {
     slider.style.top = 0;
     slider.style.left = 0;
     document.body.appendChild(slider);
+  },
+
+  impulseResponseURL: "http://www.corsproxy.com/www.openairlib.net/sites/default/files/auralization/data/audiolab/gill-heads-mine/mono/mine_site1_1way_mono.wav",
+
+  createConvolver: function(callback) {
+    var convolver = this.context.createConvolver();
+
+    this.loadBuffer(this.impulseResponseURL, function(buffer) {
+      convolver.buffer = buffer;
+
+      callback(convolver);
+    });
+  },
+
+  loadBuffer: function(url, callback) {
+    var request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.responseType = "arraybuffer";
+    var that = this;
+    request.onload = function() {
+      var buffer = that.context.createBuffer(request.response, false);
+      callback(buffer);
+    };
+    request.send();
   }
 };
 
