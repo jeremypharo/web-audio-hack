@@ -43,7 +43,7 @@ BrowserEffectsPedal.prototype = {
     document.body.appendChild(slider);
   },
 
-  impulseResponseURL: "http://www.corsproxy.com/www.openairlib.net/sites/default/files/auralization/data/audiolab/gill-heads-mine/mono/mine_site1_1way_mono.wav",
+  impulseResponseURL: "http://www.corsproxy.com/www.openairlib.net/sites/default/files/auralization/data/mrogalsky/elveden-hall-suffolk-england/stereo/1a_marble_hall.wav",
 
   createConvolver: function(callback) {
     var convolver = this.context.createConvolver();
