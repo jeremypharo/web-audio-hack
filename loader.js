@@ -2,9 +2,7 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
 
-DavidRockingBuffer = null;
-
-function loadDavidRocking(url) {
+function loadDavidRocking(url, callback) {
   var request = new XMLHttpRequest();
   request.open('GET', url, true);
   request.responseType = 'arraybuffer';
@@ -12,8 +10,8 @@ function loadDavidRocking(url) {
   // Decode asynchronously
   request.onload = function() {
     context.decodeAudioData(request.response, function(buffer) {
-      DavidRockingBuffer = buffer;
-    }, onError);
+      callback(buffer);
+    });
   }
   request.send();
 }

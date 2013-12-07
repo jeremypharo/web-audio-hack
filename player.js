@@ -6,5 +6,7 @@ function playSound(buffer) {
                                              // note: on older systems, may have to use deprecated noteOn(time);
 }
 
-// loadDavidRocking('http://');
-// playSound(davidRockingBuffer);
+loadDavidRocking('full_techno_jacket_103_924.mp3', function(buffer) {
+  playSound(buffer);
+});
+
