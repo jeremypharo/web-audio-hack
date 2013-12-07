@@ -57,8 +57,8 @@ function audioGraph(audioData) {
     soundSource.connect(convolver);
     convolver.connect(context.destination);
 
-    // mine_site1_1way_bformat , dales_site3_4way_bformat, 1a_marble_hall, 
-    setReverbImpulseResponse('1a_marble_hall.wav', convolver, playSound);
+    // mine_site1_1way_bformat , dales_site3_4way_bformat, 1a_marble_hall 
+    setReverbImpulseResponse('IR_Pink_Noise.wav', convolver, playSound);
 }
 
 
