@@ -18,7 +18,7 @@ BrowserEffectsPedal.prototype = {
 
   createGain: function() {
     var gain = this.context.createGain();
-    gain.gain.value = 0.5;
+    gain.gain.value = 0.8;
 
     return gain;
   },
