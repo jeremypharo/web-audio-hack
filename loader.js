@@ -9,9 +9,7 @@ function loadDavidRocking(url, callback) {
 
   // Decode asynchronously
   request.onload = function() {
-    context.decodeAudioData(request.response, function(buffer) {
-      callback(buffer);
-    });
+    context.decodeAudioData(request.response, callback);
   }
   request.send();
 }
