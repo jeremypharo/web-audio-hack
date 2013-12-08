@@ -11,6 +11,7 @@ BrowserEffectsPedal.prototype = {
     var that = this;
     that.createConvolver(function(convolver) {
       that.createAudioGraph(gain, filter, convolver);
+      that.addFilterContainer();
       that.addFilterSlider(filter);
       that.audioElement.play();
     });
@@ -39,6 +40,15 @@ BrowserEffectsPedal.prototype = {
     convolver.connect(this.context.destination);
   },
 
+  addFilterContainer: function() {
+    container = document.createElement('div');
+    container.id = 'filter-container';
+    container.style.backgroundColor = '#DBDDDE';
+    container.style.margin = '10px';
+
+    document.body.appendChild(container);
+  },
+
   addFilterSlider: function(filter) {
     slider = document.createElement('input');
     slider.type = "range";
@@ -49,7 +59,17 @@ BrowserEffectsPedal.prototype = {
     slider.style.position = "fixed";
     slider.style.top = 0;
     slider.style.left = 0;
-    document.body.appendChild(slider);
+    slider.style.padding = '3px';
+    slider.style.height = '1px';
+    slider.style.margin = '10px';
+    slider.style['-webkit-appearance'] = 'none';
+    slider.style['-webkit-border-radius'] = '5px';
+    slider.style.backgroundColor = '#E4B7F0';
+    slider.style.border = '1px solid #999';
+    slider.style.cursor = 'pointer';
+
+    var filterContainer = document.getElementById('filter-container');
+    filterContainer.appendChild(slider);
   },
 
   impulseResponseURL: "http://www.corsproxy.com/www.openairlib.net/sites/default/files/auralization/data/mrogalsky/elveden-hall-suffolk-england/stereo/1a_marble_hall.wav",
